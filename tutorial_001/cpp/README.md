@@ -109,11 +109,17 @@ Scanning dependencies of target pratices_1_bin
 For LINUX run `cmake-gui`  
 For WINDOWS/OSX open cmake application  
 
-References setting:  
+References steps:
+1. press configure
+2. press generate
+3. press Open
+
 ![configure](/tutorial_001/cpp/docimgs/cmake.JPG "")
 ![generate](/tutorial_001/cpp/docimgs/cmake_gen.JPG "")
 
 WINDOWS IDE setting:  
+**You need to set the default start project to execute program in VS2017**
+
 ![p2](/tutorial_001/cpp/docimgs/vs15.jpg "")
 
 ---
