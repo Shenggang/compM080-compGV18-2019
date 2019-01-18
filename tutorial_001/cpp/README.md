@@ -84,6 +84,9 @@ option 2) download/clone libigl at `/tutorial_001/cpp/libigl`
 `make`
 3. run execution file via `./pratices_1_bin`
 
+* For OSX users, if your building process is failed, please try to specify your compiler:  
+`cmake -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ ../src`
+
 example output:
 ````$cmake ..
 -- The C compiler identification is AppleClang 7.3.0.7030031
