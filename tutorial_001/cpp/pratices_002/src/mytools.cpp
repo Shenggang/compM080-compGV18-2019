@@ -15,7 +15,8 @@ void average_depth(std::vector<Eigen::MatrixXf> const & in_depth,
 	//  R[Q==0]=P[Q==0]
 	// 
     
-    out_depth=in_depth;
+    
+    out_depth = in_depth[0];
     
 }
 
