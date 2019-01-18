@@ -32,15 +32,12 @@ And install git and cmake
 [cmake](https://github.com/Kitware/CMake/releases/download/v3.13.3/cmake-3.13.3-win64-x64.zip)
 
 ## OSX
+use your package manager to install git, cmake and glew  
 
-use your package manager to install  
-git, cmake and glew
-
-Binary Install files  
+Binary Install files:  
 [cmake](https://github.com/Kitware/CMake/releases/download/v3.13.3/cmake-3.13.3-Darwin-x86_64.dmg)
 
-
-Reference cmd  
+Reference cmd:  
 * [Homebrew](http://brew.sh/)  
 `brew install git`  
 `brew install cmake`  
@@ -52,6 +49,9 @@ Reference cmd
 `sudo port install glew`  
 
 ## Linux 
+use your package manager to install git, cmake, opengl and glew  
+
+Reference cmd:  
 `sudo apt-get install git`  
 `sudo apt-get install build-essential`  
 `sudo apt-get install cmake`  
@@ -66,7 +66,7 @@ After succefully compile the files, please check our code to get familar with Im
 
 ---
 # Practice 2
-In this practice, we showcase a scan data captured via using Kinect. We follow ScanNet's (https://github.com/ScanNet/ScanNet) approach using `.sens` file format to store scanned data. All IO functions are provided in this practice. *Your job* is to implement a simple function `average_depth` in `tutorial_001\cpp\pratices_002\src\mytools.cpp`. This function will take a bunch of depth frames and compute an average depth image.  
+In this practice, we showcase a scan data captured via using Kinect. We follow ScanNet's (https://github.com/ScanNet/ScanNet) approach using `.sens` file format to store scanned data. All IO functions are provided in this practice.  **Your job** is to implement a simple function `average_depth` in `tutorial_001\cpp\pratices_002\src\mytools.cpp`. This function will take a bunch of depth frames and compute an average depth image.  
 
 Note that depth images usually contains some invalid values (depth equal to zero) due to the artifact generated in scanning process.You will need to bypass these invalid pixels when you are doing averaging. 
 
