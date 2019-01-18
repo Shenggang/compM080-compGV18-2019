@@ -120,6 +120,7 @@ namespace ml {
 #endif
 
 	class vec3uc {
+    public:
 		union
 		{
 			struct
@@ -131,6 +132,7 @@ namespace ml {
 	};
 
 	class vec4uc {
+    public:
 		union
 		{
 			struct
