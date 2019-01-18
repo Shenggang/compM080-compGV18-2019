@@ -6,6 +6,13 @@ This tutorial contains two practices.
 2. use this viewer to show point cloud data and perform simple computations.  
 
 ---
+# FAQ
+
+* in pratice-2, I saw an error `[error] scan data not found`.
+  please change input data's path at [main.cpp#L318](https://github.com/smartgeometry-ucl/compM080-compGV18-2019/blob/master/tutorial_001/cpp/pratices_002/src/main.cpp#L318) to absolute path such as `"/mydrive/compM080-compGV18-2019/tutorial_001/cpp/data/static_dock.sens"`.  
+* cannot excute my built program in VS2017. You need to change start project to project `pratices_2_bin`. Please check *WINDOWS IDE setting:*. 
+
+---
 # libigl 
 libigl is a geometry processing library developed by https://libigl.github.io/  
 It's a header-only library so you do not need to compile this library before you used it in your project.
@@ -16,13 +23,6 @@ Libigl heavily uses Eigen (https://eigen.tuxfamily.org/) to handle mesh data. Go
 * [Eigen for matlab users](http://igl.ethz.ch/projects/libigl/matlab-to-eigen.html)
 * [Libigl tutorials](https://libigl.github.io/tutorial/)
 * [C++ template introduction](http://www.cplusplus.com/doc/oldtutorial/templates/)
-
----
-# FAQ
-
-* in pratice-2, I saw an error `[error] scan data not found`.
-  please change input data's path at [main.cpp#L318](https://github.com/smartgeometry-ucl/compM080-compGV18-2019/blob/master/tutorial_001/cpp/pratices_002/src/main.cpp#L318) to absolute path such as `"/mydrive/compM080-compGV18-2019/tutorial_001/cpp/data/static_dock.sens"`.  
-* cannot excute my built program in VS2017. You need to change start project to project `pratices_2_bin`. Please check *WINDOWS IDE setting:*. 
 
 
 ---
