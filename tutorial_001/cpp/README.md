@@ -16,6 +16,15 @@ Libigl heavily uses Eigen (https://eigen.tuxfamily.org/) to handle mesh data. Go
 * [Eigen for matlab users](http://igl.ethz.ch/projects/libigl/matlab-to-eigen.html)
 * [Libigl tutorials](https://libigl.github.io/tutorial/)
 * [C++ template introduction](http://www.cplusplus.com/doc/oldtutorial/templates/)
+
+---
+# FAQ
+
+* in pratice-2, I saw an error `[error] scan data not found`.
+  please change input data's path at [main.cpp#L318](https://github.com/smartgeometry-ucl/compM080-compGV18-2019/blob/master/tutorial_001/cpp/pratices_002/src/main.cpp#L318) to absolute path such as `"/mydrive/compM080-compGV18-2019/tutorial_001/cpp/data/static_dock.sens"`.  
+* cannot excute my built program in VS2017. You need to change start project to project `pratices_2_bin`. Please check *WINDOWS IDE setting:*. 
+
+
 ---
 
 # Install:
@@ -31,7 +40,7 @@ And install git and cmake
 [cmake](https://github.com/Kitware/CMake/releases/download/v3.13.3/cmake-3.13.3-win64-x64.zip)
 
 ## OSX
-use your package manager to install git, cmake and glew  
+use your package manager to install git, cmake, glew, and g++
 
 Binary Install files:  
 [cmake](https://github.com/Kitware/CMake/releases/download/v3.13.3/cmake-3.13.3-Darwin-x86_64.dmg)
@@ -41,11 +50,13 @@ Reference cmd:
 `brew install git`  
 `brew install cmake`  
 `brew install glew`  
+`brew install gcc`
 
 * [MacPorts](https://www.macports.org/)  
 `sudo port install cmake`  
 `sudo port install git`  
 `sudo port install glew`  
+`sudo port install gcc`  
 
 ## Linux 
 use your package manager to install git, cmake, opengl and glew  
