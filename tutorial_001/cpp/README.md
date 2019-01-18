@@ -76,7 +76,7 @@ option 2) download/clone libigl at `/tutorial_001/cpp/libigl`
 
 ## ii. use cmake to build file.  
 
-**option 1) use terminal (OSX/LINUX)**
+### option 1) use terminal (OSX/LINUX)
 1. open cmd and switch to `/tutorial_001/cpp/pratices_001`  
 2. build:  
 `mkdir build; cd build`  
@@ -104,12 +104,12 @@ Scanning dependencies of target pratices_1_bin
 [100%] Built target pratices_1_bin
 ````
 
-**option 2) use camke-gui (OSX/LINUX/WINDOWS)**
+### option 2) use camke-gui (OSX/LINUX/WINDOWS)
 
 For LINUX run `cmake-gui`  
 For WINDOWS/OSX open cmake application  
 
-References steps:
+#### References steps:
 1. press configure
 2. press generate
 3. press Open
@@ -117,11 +117,12 @@ References steps:
 ![configure](/tutorial_001/cpp/docimgs/cmake.JPG "")
 ![generate](/tutorial_001/cpp/docimgs/cmake_gen.JPG "")
 
-OSX:
-the default compiler is MAKE. so after you did cmake you need to open a terminal to excute `make` in the build directory.
+#### OSX:
+the default compiler is MAKE.  
+After you did cmake you need to open a terminal to excute `make` in the build directory.  
 
 
-WINDOWS IDE setting:  
+#### WINDOWS IDE setting:  
 **You need to set the default start project to execute program in VS2017**
 
 ![p2](/tutorial_001/cpp/docimgs/vs15.jpg "")
@@ -130,9 +131,17 @@ WINDOWS IDE setting:
 # Practice 2
 In this practice, we showcase a scan data captured via using Kinect. We follow ScanNet's (https://github.com/ScanNet/ScanNet) approach using `.sens` file format to store scanned data. All IO functions are provided in this practice.  **Your job** is to implement a simple function `average_depth` in `tutorial_001\cpp\pratices_002\src\mytools.cpp`. This function will take a bunch of depth frames and compute an average depth image.  
 
+**[What is depth image](https://www.quora.com/What-is-depth-image):**  
+````Now depth image has values according how far is object. Pixel represent distance from camera.````
+
+
 Note that depth images usually contains some invalid values (depth equal to zero) due to the artifact generated in the scanning process. You will need to bypass these invalid pixels when you are doing average. 
 
-![p2](/tutorial_001/cpp/docimgs/p2.JPG "")
+**comparsion**:  
+![comparsion](/tutorial_001/cpp/docimgs/comp.jpg "")
+
+**average depth example**:  
+![average depth example](/tutorial_001/cpp/docimgs/p2.JPG "")
 
 
 
