@@ -64,11 +64,64 @@ Reference cmd:
 In this practice, you will learn how to compile our example viewer via cmake.
 After succefully compile the files, please check our code to get familar with Imgui and libigl.
 
+![p1](/tutorial_001/cpp/docimgs/p1.JPG "")
+
+## i. get libigl via git submodule or git clone  
+option 1) use submodule update:  
+1. open cmd in this git repository  
+2. `git submodule update --init --recursive`
+3. check libigl directory in `/tutorial_001/cpp/libigl` is not empty  
+
+option 2) download/clone libigl at `/tutorial_001/cpp/libigl`  
+
+## ii. use cmake to build file.  
+
+**option 1) use terminal (OSX/LINUX)**
+1. open cmd and switch to `/tutorial_001/cpp/pratices_001`  
+2. build:  
+`mkdir build; cd build`  
+`cmake -DCMAKE_BUILD_TYPE=Release  ../src`  
+`make`
+3. run execution file via `./pratices_1_bin`
+
+example output:
+````$cmake ..
+-- The C compiler identification is AppleClang 7.3.0.7030031
+-- The CXX compiler identification is AppleClang 7.3.0.7030031
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -- works
+-- Detecting C compiler ABI info
+.....
+HEAD is now at a37e6e5... Update CMake.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/tirth/MainDataBox/1_Workspace/develop.project/2019.geometry_course/compM080-compGV18-2019/tutorial_001/cpp/pratices_001/src/build
+$make
+Scanning dependencies of target pratices_1_bin
+...
+[ 96%] Building CXX object CMakeFiles/pratices_1_bin.dir/main.cpp.o
+[100%] Linking CXX executable pratices_1_bin
+[100%] Built target pratices_1_bin
+````
+
+**option 2) use camke-gui (OSX/LINUX/WINDOWS)**
+
+For OSX/LINUX run `cmake-gui`  
+For WINDOWS open cmake application  
+
+References setting:  
+![configure](/tutorial_001/cpp/docimgs/cmake.JPG "")
+![generate](/tutorial_001/cpp/docimgs/cmake_gen.JPG "")
+
+WINDOWS IDE setting:  
+![p2](/tutorial_001/cpp/docimgs/vs15.jpg "")
+
 ---
 # Practice 2
 In this practice, we showcase a scan data captured via using Kinect. We follow ScanNet's (https://github.com/ScanNet/ScanNet) approach using `.sens` file format to store scanned data. All IO functions are provided in this practice.  **Your job** is to implement a simple function `average_depth` in `tutorial_001\cpp\pratices_002\src\mytools.cpp`. This function will take a bunch of depth frames and compute an average depth image.  
 
 Note that depth images usually contains some invalid values (depth equal to zero) due to the artifact generated in scanning process.You will need to bypass these invalid pixels when you are doing averaging. 
 
+![p2](/tutorial_001/cpp/docimgs/p2.JPG "")
 
 
