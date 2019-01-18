@@ -117,6 +117,10 @@ References steps:
 ![configure](/tutorial_001/cpp/docimgs/cmake.JPG "")
 ![generate](/tutorial_001/cpp/docimgs/cmake_gen.JPG "")
 
+OSX:
+the default compiler is MAKE. so after you did cmake you need to open a terminal to excute `make` in the build directory.
+
+
 WINDOWS IDE setting:  
 **You need to set the default start project to execute program in VS2017**
 
