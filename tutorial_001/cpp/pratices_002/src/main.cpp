@@ -325,7 +325,7 @@ int main(int argc, char *argv[])
 	}
 	ml::SensorData sd(sens_path);
 
-	load_scans(sd, 3, g_myctx.depths,g_myctx.colors,g_myctx.cam_poses, g_myctx.point_clouds, g_myctx.point_clouds_rgb 	);
+	load_scans(sd, 100, g_myctx.depths,g_myctx.colors,g_myctx.cam_poses, g_myctx.point_clouds, g_myctx.point_clouds_rgb 	);
 
 	//------------------------------------------------------
 	// You task is to finish the smooth_depth function 
