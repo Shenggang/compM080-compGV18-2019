@@ -1,17 +1,16 @@
 # COMPM080/GV18 Tutorial 1 - C++ 
 
-In this tutorial, we introduce a example framework using libigl to access and visualize point cloud and mesh data.  
+In this tutorial, we introduce an example framework using libigl to access and visualize point cloud and mesh data.  
 This tutorial contains two practices.  
 1. compile an example viewer.  
-2. use viewer to show point cloud data and perform simple computations.  
+2. use this viewer to show point cloud data and perform simple computations.  
 
 ---
 # libigl 
 libigl is a geometry processing library developed by https://libigl.github.io/  
 It's a header-only library so you do not need to compile this library before you used it in your project.
 
-Libigl heavily uses Eigen (https://eigen.tuxfamily.org/) to handle mesh data. A good news is it's also a header-only library.
-Here we list several useful references for helping you familar with Libigl and Eigen's coding style.
+Libigl heavily uses Eigen (https://eigen.tuxfamily.org/) to handle mesh data. Good news is it's also a header-only library. Here we list several useful references to help you get familiar with Libigl and Eigen's coding style.
 
 * [Eigen quick references](http://eigen.tuxfamily.org/dox/group__QuickRefPage.html)
 * [Eigen for matlab users](http://igl.ethz.ch/projects/libigl/matlab-to-eigen.html)
@@ -22,7 +21,7 @@ Here we list several useful references for helping you familar with Libigl and E
 # Install:
 
 ## Windows 
-download your preferred C++ IDE/Compiler. If you don't have preference, we suggest you install VS2017.
+download your preferred C++ IDE/Compiler. If you don't have a preference, we suggest you install VS2017.
 
 [Visual Studio 2017](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
 
@@ -62,7 +61,7 @@ Reference cmd:
 ---
 # Practice 1
 In this practice, you will learn how to compile our example viewer via cmake.
-After succefully compile the files, please check our code to get familar with Imgui and libigl.
+After successfully compile the files, please check our code to see how to create viewer.
 
 ![p1](/tutorial_001/cpp/docimgs/p1.JPG "")
 
@@ -120,8 +119,10 @@ WINDOWS IDE setting:
 # Practice 2
 In this practice, we showcase a scan data captured via using Kinect. We follow ScanNet's (https://github.com/ScanNet/ScanNet) approach using `.sens` file format to store scanned data. All IO functions are provided in this practice.  **Your job** is to implement a simple function `average_depth` in `tutorial_001\cpp\pratices_002\src\mytools.cpp`. This function will take a bunch of depth frames and compute an average depth image.  
 
-Note that depth images usually contains some invalid values (depth equal to zero) due to the artifact generated in scanning process.You will need to bypass these invalid pixels when you are doing averaging. 
+Note that depth images usually contains some invalid values (depth equal to zero) due to the artifact generated in the scanning process. You will need to bypass these invalid pixels when you are doing average. 
 
 ![p2](/tutorial_001/cpp/docimgs/p2.JPG "")
+
+
 
 
