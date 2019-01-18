@@ -67,7 +67,7 @@ After successfully compile the files, please check our code to see how to create
 
 ## i. get libigl via git submodule or git clone  
 option 1) use submodule update:  
-1. open cmd in this git repository  
+1. git clone this repository : `git clone https://github.com/smartgeometry-ucl/compM080-compGV18-2019.git`
 2. `git submodule update --init --recursive`
 3. check libigl directory in `/tutorial_001/cpp/libigl` is not empty  
 
