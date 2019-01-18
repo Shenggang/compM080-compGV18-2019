@@ -105,8 +105,8 @@ Scanning dependencies of target pratices_1_bin
 
 **option 2) use camke-gui (OSX/LINUX/WINDOWS)**
 
-For OSX/LINUX run `cmake-gui`  
-For WINDOWS open cmake application  
+For LINUX run `cmake-gui`  
+For WINDOWS/OSX open cmake application  
 
 References setting:  
 ![configure](/tutorial_001/cpp/docimgs/cmake.JPG "")
