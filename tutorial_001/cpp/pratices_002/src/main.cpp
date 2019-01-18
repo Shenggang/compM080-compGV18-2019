@@ -9,7 +9,7 @@
 #include <imgui/imgui.h>
 #include <iostream>
 #include <igl/writePLY.h>
-#include <igl/writeObj.h>
+#include <igl/writeOBJ.h>
 #include <igl/file_exists.h>
 
 #include "sensorData.h"
