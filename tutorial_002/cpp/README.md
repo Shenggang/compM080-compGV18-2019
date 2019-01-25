@@ -49,7 +49,7 @@ In this tutorial, we introduce how to retrieve neighboring information via using
 * [libigl's vertex_triangle_adjacency](https://github.com/libigl/libigl/blob/master/include/igl/vertex_triangle_adjacency.cpp)
 * [OpenMesh's Halfedge Introduction](https://www.openmesh.org/media/Documentations/OpenMesh-6.3-Documentation/a00010.html)
 * [CGAL 4.13 - Halfedge Data Structures](https://doc.cgal.org/latest/HalfedgeDS/index.html)
-* [libigl's Fake Halfedge] (https://github.com/libigl/libigl/blob/master/include/igl/HalfEdgeIterator.h)
+* [libigl's Fake Halfedge](https://github.com/libigl/libigl/blob/master/include/igl/HalfEdgeIterator.h)
 * [Eigen quick references](http://eigen.tuxfamily.org/dox/group__QuickRefPage.html)
 * [Eigen for matlab users](http://igl.ethz.ch/projects/libigl/matlab-to-eigen.html)
 * [Libigl tutorials](https://libigl.github.io/tutorial/)
