@@ -66,7 +66,7 @@ In this tutorial, we introduce how to retrieve neighboring information via using
 `cd ~/my_code/compM080-compGV18-2019`
 2. commit all your changed you added in the previous tutorial   
 `git add .`  
-`git commit -m 'added all my changed'
+`git commit -m 'added all my changed'   
 `git pull origin master'
 
 ### option (b) just download/clone this repository again.  
