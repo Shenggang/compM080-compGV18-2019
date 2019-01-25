@@ -202,7 +202,7 @@ for (size_t i=0 ; i < indexes.size() ;i++)
 Hints:  
 1. follow the above example, construct kdTree structure
 2. access each vertex to retrieve its k-nearest neighbors
-3. use `igl:fit_plane` to fit a plane
+3. use `igl:fit_plane` to fit a plane or averaging vertex normal
 4. flip normal vector if needed (to get outer-pointing normal)
 
 ## reference images
