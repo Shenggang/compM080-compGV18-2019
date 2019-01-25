@@ -5,15 +5,15 @@ In this tutorial, we introduce how to retrieve neighboring information via using
 ---
 # FAQ 
 
-* There is an run-time error in windows env.: make sure you select "Visual Studio 201X - **Win64**" in CMake's Configuration (most of computer now
-
+* There is an run-time error in windows env. : make sure you select "Visual Studio 201X - **Win64**" in CMake's Configuration (most of computer now
+* CMake shows it cannot find libigl : library is missing. please read *STEP-2. get libigl* section
 ---
 # C++ Dev. Cycle
 1. do cmake to generate building file (configure->generate->Open IDE or `make`)
 2. build your source code (via IDE's build or `make`)
 3. run your program via `./practice_xxx.bin` or press Run in your IDE
 4. modify source code in `src`
-5. go back to **step-2**
+5. go back to **2 build your source code**
 
 ---
 # Access neighboring vertices 
