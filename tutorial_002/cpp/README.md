@@ -8,11 +8,48 @@ In this tutorial, we introduce how to retrieve neighboring information via using
 * ..
 
 ---
-# Useful references 
+# Access neighboring vertices 
 
+## Adjacent list (today's example)
+````
+    // a list of list of int. storage the index of adjacent face and the corresponding local index
+    adjacent_list, vertex_local_index = build_adjacent_list
+    
+    v_i = V[i] // a vertex  
+    neighboring_faces_indices = adjacent_list[v_i]
+    local_vertex_indices = vertex_local_index[v_i]
+    
+    //loop over all neighbors
+    for i = 1..N :
+    	face_index = neighboring_faces_indices[i]
+    	v_local_index = local_vertex_indices[i]
+	
+	for k in 1...3 :
+	    if v_local_index != k : 
+	        V[k] // a neighboring vertex
+    
+````
+## Halfedge style neighboring access  
+````
+    v_0 = V[i] // a vertex 
+    halfedge_0 = v_0.outgoing_hfedge()
+    halfedge_i = halfedge_0
+    
+    while(1):
+        k = halfedge_i.vertex_index
+	V[k] // neighboring vertex
+        halfedge_i = halfedge_i.opposite_hfedge()
+	halfedge_i = halfedge_i.next_hfedge()
+	
+	if halfedge_i == halfedge_0:
+	    break
+````
+---
+# Useful references 
+* [libigl's vertex_triangle_adjacency](https://github.com/libigl/libigl/blob/master/include/igl/vertex_triangle_adjacency.cpp)
 * [OpenMesh's Halfedge Introduction](https://www.openmesh.org/media/Documentations/OpenMesh-6.3-Documentation/a00010.html)
 * [CGAL 4.13 - Halfedge Data Structures](https://doc.cgal.org/latest/HalfedgeDS/index.html)
-
+* [libigl's Fake Halfedge] (https://github.com/libigl/libigl/blob/master/include/igl/HalfEdgeIterator.h)
 * [Eigen quick references](http://eigen.tuxfamily.org/dox/group__QuickRefPage.html)
 * [Eigen for matlab users](http://igl.ethz.ch/projects/libigl/matlab-to-eigen.html)
 * [Libigl tutorials](https://libigl.github.io/tutorial/)
