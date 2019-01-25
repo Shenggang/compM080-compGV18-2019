@@ -5,8 +5,10 @@ In this tutorial, we introduce how to retrieve neighboring information via using
 ---
 # FAQ 
 
-* There is an run-time error in windows env. : make sure you select "Visual Studio 201X - **Win64**" in CMake's Configuration (most of computer now
+* There is an run-time error in windows env. : make sure you select "Visual Studio 201X - **Win64**" in CMake's Configuration (most of computers are 64bits now)
 * CMake shows it cannot find libigl : library is missing. please read *STEP-2. get libigl* section
+* there is no normal vector shows in my program: try to increase nv_len in gui or in main.cpp (also set `viewer.data().show_faces=1` in [main.cpp:L85](https://github.com/smartgeometry-ucl/compM080-compGV18-2019/blob/master/tutorial_002/cpp/practices_access_neighbors/src/main.cpp#L85) to True)
+
 ---
 # C++ Dev. Cycle
 1. do cmake to generate building file (configure->generate->Open IDE or `make`)
