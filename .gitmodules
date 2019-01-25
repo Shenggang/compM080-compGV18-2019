@@ -1,3 +1,6 @@
 [submodule "tutorial_001/cpp/libigl"]
 	path = tutorial_001/cpp/libigl
 	url = https://github.com/libigl/libigl.git
+[submodule "libigl"]
+	path = libigl
+	url = https://github.com/libigl/libigl.git
