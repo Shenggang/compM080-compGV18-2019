@@ -90,7 +90,8 @@ In this tutorial we add another libigl directory at the top level `compM080-comp
 3. do `git submodule update --init --recursive`
 4. check libigl directory in `compM080-compGV18-2019/libigl` is not empty  
 
-### option (b) download/clone libigl at `compM080-compGV18-2019/libigl`  LINK[https://github.com/smartgeometry-ucl/compM080-compGV18-2019/tree/master/tutorial_001/cpp#i-get-libigl-via-git-submodule-or-git-clone]
+### option (b) download/clone libigl at `compM080-compGV18-2019/libigl`  
+**LINK [https://github.com/smartgeometry-ucl/compM080-compGV18-2019/tree/master/tutorial_001/cpp#i-get-libigl-via-git-submodule-or-git-clone](https://github.com/smartgeometry-ucl/compM080-compGV18-2019/tree/master/tutorial_001/cpp#i-get-libigl-via-git-submodule-or-git-clone)**
 
 
 ---
