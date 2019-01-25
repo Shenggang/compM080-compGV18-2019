@@ -74,9 +74,10 @@ In this tutorial, we introduce how to retrieve neighboring information via using
 ### option (a) For those who are familiar with Git. 
 1. cd to your previous `compM080-compGV18-2019` directory  
 `cd ~/my_code/compM080-compGV18-2019`
-2. commit all your changed you added in the previous tutorial   
+2. commit all your change  
 `git add .`  
 `git commit -m 'added all my changed`  
+3. get new code 
 `git pull origin master`
 
 ### option (b) just download/clone this repository again.  
@@ -85,13 +86,18 @@ In this tutorial, we introduce how to retrieve neighboring information via using
 ## STEP-2. get libigl
 In this tutorial we add another libigl directory at the top level `compM080-compGV18-2019-private\libigl` in order to make library sharing become easier. Due to this you will need to clone libigl again. 
 
+### currently there are two libigl submodule in this repository
+[1] `compM080-compGV18-2019/tutorial_001/cpp/libigl` for tutorial-1
+[2] `compM080-compGV18-2019/libigl` for tutorial-2
+we use [2] in this practice (and incoming tutorials)  but we keep [1] for the sake of reconfiguration your tutorial-1. 
+
 ### option (a) use submodule update:  
 1. at this repository's directory `compM080-compGV18-2019`
 3. do `git submodule update --init --recursive`
 4. check libigl directory in `compM080-compGV18-2019/libigl` is not empty  
 
 ### option (b) download/clone libigl at `compM080-compGV18-2019/libigl`  
-**LINK [https://github.com/smartgeometry-ucl/compM080-compGV18-2019/tree/master/tutorial_001/cpp#i-get-libigl-via-git-submodule-or-git-clone](https://github.com/smartgeometry-ucl/compM080-compGV18-2019/tree/master/tutorial_001/cpp#i-get-libigl-via-git-submodule-or-git-clone)**
+**see also [https://github.com/smartgeometry-ucl/compM080-compGV18-2019/tree/master/tutorial_001/cpp#i-get-libigl-via-git-submodule-or-git-clone](https://github.com/smartgeometry-ucl/compM080-compGV18-2019/tree/master/tutorial_001/cpp#i-get-libigl-via-git-submodule-or-git-clone)**
 
 
 ---
