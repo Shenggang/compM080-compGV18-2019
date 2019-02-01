@@ -14,9 +14,29 @@ void average_depth(std::vector<Eigen::MatrixXf> const & in_depth,
 	// Numpy equivalent
 	//  R[Q==0]=P[Q==0]
 	// 
-    
-    
-    out_depth = in_depth[0];
-    
+    int rows = in_depth[0].rows();
+	int columns = in_depth[0].cols();
+	out_depth.resize(rows, columns);
+
+	int i,j,k;
+	for (i = 0; i < rows; ++i)
+	{
+		for (j = 0; j < columns; ++j)
+		{
+			float sum = 0;
+			int count = 0;
+			for (k = 0; k < NUM_FRAMES; ++k)
+			{
+				if (in_depth[k](i,j) == 0)
+				{
+					continue;
+				}
+				sum += in_depth[k](i,j);
+				count++;
+			}
+			out_depth(i,j) = sum/count;
+		}
+	}
+
 }
 

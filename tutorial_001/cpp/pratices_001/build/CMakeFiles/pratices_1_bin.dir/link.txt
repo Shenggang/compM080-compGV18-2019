@@ -1,0 +1,1 @@
+/usr/bin/c++    -fPIC -O3 -DNDEBUG   CMakeFiles/pratices_1_bin.dir/main.cpp.o  -o pratices_1_bin -rdynamic -lGL imgui/libimgui.a glfw/src/libglfw3.a -lrt -lm -lX11 -lpthread glad/libglad.a -ldl 
