@@ -39,8 +39,22 @@ void calculate_vertex_normal(Eigen::MatrixXd const & V, Eigen::MatrixXi const & 
 	//
 	//   Your job is to implement vertex normal calculation
 	//
-    
-    out_VN.resize(V.rows(),V.cols());
-    out_VN.setZero();
+    std::vector<std::vector<int> > VF;
+	std::vector<std::vector<int> > VFi;
+	igl::vertex_triangle_adjacency(V.rows(), F, VF, VFi);
+	out_VN.resize(V.rows(),V.cols());
+
+	int i = 0;
+	for (i = 0; i < V.rows(); ++i)
+	{
+		std::vector<int> incident_faces = VF[i];
+		Eigen::Matrix<double, 1, 3> vn(0,0,0);
+		for (std::vector<int>::iterator it = incident_faces.begin(); it != incident_faces.end(); ++it)
+		{
+			vn += FN.row(*it);
+		}
+		vn /= incident_faces.size();
+		out_VN.row(i) = vn.row(0);
+	}
     
 }

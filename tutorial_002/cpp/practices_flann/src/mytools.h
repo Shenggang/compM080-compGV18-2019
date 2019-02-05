@@ -23,7 +23,6 @@ void calculate_vertex_normal_flann(
 	Eigen::MatrixXi const & F,  
 	Eigen::MatrixXd & out_VN);
 
-
 #endif
 
 
