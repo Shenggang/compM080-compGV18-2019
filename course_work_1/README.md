@@ -9,5 +9,20 @@ example of loading a .off file in the previous tutorials
 
 3. rejection step in ICP: a simple one is to check normal vectors' angle
 
-4. question 1 `In class, we discussed the solution to the optimization to minimize alignment error... Refine the derivation done in class to solve the optimization`: 
+4. how to do question 1 `In class, we discussed the solution to the optimization to minimize alignment error... Refine the derivation done in class to solve the optimization`: 
    You need to work out formulation in page 122 ( 02_Registration_term2_19.pdf/p122:Shape Matching Rotation) (with weight w_i this time.)
+
+## References Results
+
+**bun045.ply TO bun000.ply**  
+no noise/no subsampling/point2point  
+![Image](/course_work_1/imgs/45_to_00.gif)
+![Image](/course_work_1/imgs/45_to_00_fin.jpg) 
+![Image](/course_work_1/imgs/45_to_00_err.jpg)  
+
+
+**bun090.ply TO bun000.ply**  
+no noise/no subsampling/point2point    
+![Image](/course_work_1/imgs/90_to_00.gif)
+![Image](/course_work_1/imgs/90_to_00_fin.jpg) 
+![Image](/course_work_1/imgs/90_to_00_err.jpg)
