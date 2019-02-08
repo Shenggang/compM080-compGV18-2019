@@ -1,7 +1,8 @@
 # COMPM080/GV18 Tutorial 3 - C++ 
 
 In this tutorial, we introduce how to recover a Signed Distance Field (SDF) by using RBF fitting method.  
-[Reference paper](http://mesh.brown.edu/DGP/pdfs/Carr-sg2001.pdf)
+[Reference paper](http://mesh.brown.edu/DGP/pdfs/Carr-sg2001.pdf)  
+Slide:
 
 ---
 # FAQ 
