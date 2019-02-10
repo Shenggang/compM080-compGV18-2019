@@ -15,14 +15,14 @@ example of loading a .off file in the previous tutorials
 ## Results reference
 
 **bun045.ply TO bun000.ply**  
-no noise/no subsampling/point2point  
+no noise/no subsampling/no rejection/point2point  
 ![Image](/course_work_1/imgs/45_to_00.gif)
 ![Image](/course_work_1/imgs/45_to_00_fin.jpg) 
 ![Image](/course_work_1/imgs/45_to_00_err.jpg)  
 
 
 **bun090.ply TO bun000.ply**  
-no noise/no subsampling/point2point    
+no noise/no subsampling/no rejection/point2point  
 ![Image](/course_work_1/imgs/90_to_00.gif)
 ![Image](/course_work_1/imgs/90_to_00_fin.jpg) 
 ![Image](/course_work_1/imgs/90_to_00_err.jpg)
