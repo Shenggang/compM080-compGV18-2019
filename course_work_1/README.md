@@ -11,6 +11,9 @@ example of loading a .off file in the previous tutorials
 
 4. how to do question 1 `In class, we discussed the solution to the optimization to minimize alignment error... Refine the derivation done in class to solve the optimization`: 
    You need to work out formulation in page 122 ( 02_Registration_term2_19.pdf/p122:Shape Matching Rotation) (with weight w_i this time.)
+   
+5. visualization: you can also use MeshLab to create some result screenshots.
+
 
 ## Results reference
 
