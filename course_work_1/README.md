@@ -12,7 +12,16 @@ example of loading a .off file in the previous tutorials
 4. how to do question 1 `In class, we discussed the solution to the optimization to minimize alignment error... Refine the derivation done in class to solve the optimization`: 
    You need to work out formulation in page 122 ( 02_Registration_term2_19.pdf/p122:Shape Matching Rotation) (with weight w_i this time.)
    
-5. visualization: you can also use MeshLab to create some result screenshots.
+5. visualization: you can also use MeshLab to create some result screenshots. 
+
+6. can I just visaulize 'points' instead of meshes ? : ok -- make sure we can understanding your alignment results and also see the normal information through point color (question 6)
+
+6. Question 3, what is `adjusting the noise to the bounding box...` 
+Give a point set, its bounding box can be defined by the maximum and the minimum coordinates. This step is used to add meaningful noises since the coordinate of a mesh is not always aligned with the real world metric (so 0.1 in M2's space can be 0.1 cm/0.1 meters or 0.1 X depends on how M2 is created) 
+
+7. Question3, what is input exactly? : Align noisy M2 (=M2') to M1.  
+
+
 
 
 ## Results reference
