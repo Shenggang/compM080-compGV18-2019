@@ -283,6 +283,12 @@ public:
 		// check for mode and do one step accordingly
 		if (mode != 2)
 		{
+			if (use_normal)
+			{
+				calculate_vertex_normal_flann(V_set_1, N_set_1);
+				icp_step(V_set_1, V_set_2, N_set_1);
+				return;
+			}
 			icp_step(V_set_1, V_set_2);
 			return;
 		}
@@ -298,14 +304,30 @@ public:
 		}
 		for (int i = 2; i > 0; --i)
 		{
-			li = icp_step(V_set_vec[i-1], V_set_vec[i]);
+			if (use_normal)
+			{
+				li = icp_step(V_set_vec[i-1], V_set_vec[i], N_set_vec[i-1]);
+			} else{
+				li = icp_step(V_set_vec[i-1], V_set_vec[i]);
+			}
 			l += li;
 			que5_loss[i-1].push_back(li);
 		}
-		li = icp_step(V_set_vec[4], V_set_vec[3]);
+		if (use_normal)
+		{
+			li = icp_step(V_set_vec[4], V_set_vec[3], N_set_vec[4]);
+		}else {
+			li = icp_step(V_set_vec[4], V_set_vec[3]);
+		}
 		que5_loss[2].push_back(li);
 		l += li;
-		li = icp_step(V_set_vec[0], V_set_vec[4]);
+		if (use_normal)
+		{
+			li = icp_step(V_set_vec[0], V_set_vec[4], N_set_vec[0]);
+		} else
+		{
+			li = icp_step(V_set_vec[0], V_set_vec[4]);
+		}
 		que5_loss[3].push_back(li);
 		l += li;
 		std::cout << "Total loss = " << l << std::endl;
