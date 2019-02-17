@@ -285,7 +285,6 @@ public:
 		{
 			if (use_normal)
 			{
-				calculate_vertex_normal_flann(V_set_1, N_set_1);
 				icp_step(V_set_1, V_set_2, N_set_1);
 				return;
 			}

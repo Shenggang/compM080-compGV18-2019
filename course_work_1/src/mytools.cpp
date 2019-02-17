@@ -358,11 +358,13 @@ double estimate_rotation_translation(Eigen::MatrixXd const & V_tar, Eigen::Matri
 	}
 
 	// compute SVD
+	std::cout << "compute svd" << std::endl;
 	Eigen::JacobiSVD<Eigen::MatrixXd> svd(A, Eigen::ComputeFullU | Eigen::ComputeFullV);
 
 	// Construct pseudo-inverse
+	std::cout << "inverse" << std::endl;
 	Eigen::MatrixXd sigmaInv;
-	sigmaInv.resize(A.rows(), A.cols());
+	sigmaInv.resize(A.cols(), A.rows());
 	sigmaInv.setZero();
 	int size = (A.rows() < A.cols()) ? A.rows() : A.cols();
 	for (int i = 0; i < size; ++i)
@@ -372,20 +374,26 @@ double estimate_rotation_translation(Eigen::MatrixXd const & V_tar, Eigen::Matri
 	}
 	Eigen::MatrixXd Ainv;
 	Ainv = svd.matrixV() * sigmaInv * (svd.matrixU().transpose());
+	std::cout << Ainv*A << std::endl;
 
 	// Solve for x
+	std::cout << "solve" << std::endl;
 	Eigen::VectorXd x;
 	x = Ainv * b;
 
 	// Retrieve t from x
 	t = x.bottomRows(3);
+	std::cout << "t= " << t <<std::endl;
 
 	// Reconstruct R from euler angles
+	std::cout << "calc R" << std::endl;
 	Eigen::Matrix3d rotx, roty, rotz;
-	get_rotation_X(x(0), rotx); get_rotation_Y(x(1), roty); get_rotation_Z(x(2), rotz); 
+	get_rotation_X(x(0)/PI*180, rotx); get_rotation_Y(x(1)/PI*180, roty); get_rotation_Z(x(2)/PI*180, rotz); 
 	R = rotz * roty * rotx;
+	std::cout << "R=" <<  R <<std::endl;
 
 	// compute loss
+	std::cout << "calc loss" << std::endl;
 	Eigen::MatrixXd residue;
 	residue = (V_tar.transpose() - (R*V_src.transpose() + t.replicate(1, V_src.rows()))).transpose();
 
