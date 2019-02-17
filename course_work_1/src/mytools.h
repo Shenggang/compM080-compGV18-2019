@@ -25,9 +25,17 @@ void calculate_vertex_normal_flann(
 	Eigen::MatrixXd const & V, 
 	Eigen::MatrixXd & out_VN);
 
+void get_rotation_X(
+	double const & degrees,
+	Eigen::Matrix3d& mat);
+
 void get_rotation_Y(
-	double const & degrees, 
-	Eigen::Matrix3d & mat);
+	double const & degrees,
+	Eigen::Matrix3d& mat);
+
+void get_rotation_Z(
+	double const & degrees,
+	Eigen::Matrix3d& mat);
 
 void subsample(
 	int const & total,
@@ -37,9 +45,10 @@ void subsample(
 void register_closest_point(
 	Eigen::MatrixXd const & V_tar,
 	Eigen::MatrixXd const & V_src,
+	Eigen::MatrixXd const & N_tar,
 	Eigen::MatrixXd & V_ref,
 	Eigen::MatrixXd & V_NP,
-	std::vector<int> & indices);
+	Eigen::MatrixXd & N_ref);
 
 void register_closest_point(
 	Eigen::MatrixXd const & V_tar,

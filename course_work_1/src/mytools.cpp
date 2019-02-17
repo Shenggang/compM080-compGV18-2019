@@ -92,7 +92,7 @@ void calculate_vertex_normal_flann(Eigen::MatrixXd const & V, Eigen::MatrixXd & 
 		Eigen::RowVector3d cur_vex = V.row(i);
 
 		// set K nearest samples
-		const size_t par_K = 8;
+		const size_t par_K = 20;
 		
 		// create results objects
 		std::vector<size_t> indexes(par_K);
@@ -127,7 +127,24 @@ void calculate_vertex_normal_flann(Eigen::MatrixXd const & V, Eigen::MatrixXd & 
 
 }
 
-void get_rotation_Y(double const & degrees, Eigen::Matrix3d & mat)
+void get_rotation_X(double const & degrees, Eigen::Matrix3d& mat)
+{
+	//
+	// input:
+	//   degrees: double. Degrees to be turned.
+	// output:
+	//   mat: 3x3 Matrix. Rotation matrix about X-axis
+	//
+	mat.setZero();
+	double rad = degrees*PI/180;
+	mat(1,1) = cos(rad);
+	mat(2,2) = cos(rad);
+	mat(1,2) = -sin(rad);
+	mat(2,1) = sin(rad);
+	mat(0,0) = 1;
+}
+
+void get_rotation_Y(double const & degrees, Eigen::Matrix3d& mat)
 {
 	//
 	// input:
@@ -135,12 +152,30 @@ void get_rotation_Y(double const & degrees, Eigen::Matrix3d & mat)
 	// output:
 	//   mat: 3x3 Matrix. Rotation matrix about Y-axis
 	//
-	mat.setIdentity(3,3);
+	mat.setZero();
 	double rad = degrees*PI/180;
 	mat(0,0) = cos(rad);
 	mat(2,2) = cos(rad);
 	mat(0,2) = sin(rad);
 	mat(2,0) = -sin(rad);
+	mat(1,1) = 1;
+}
+
+void get_rotation_Z(double const & degrees, Eigen::Matrix3d& mat)
+{
+	//
+	// input:
+	//   degrees: double. Degrees to be turned.
+	// output:
+	//   mat: 3x3 Matrix. Rotation matrix about Z-axis
+	//
+	mat.setZero();
+	double rad = degrees*PI/180;
+	mat(0,0) = cos(rad);
+	mat(1,1) = cos(rad);
+	mat(0,1) = -sin(rad);
+	mat(1,0) = sin(rad);
+	mat(2,2) = 1;
 }
 
 void subsample(int const & total, float const & proportion, std::vector<int> & indices)
@@ -165,18 +200,20 @@ void subsample(int const & total, float const & proportion, std::vector<int> & i
 	}
 }
 
-void register_closest_point(Eigen::MatrixXd const & V_tar, Eigen::MatrixXd const & V_src, Eigen::MatrixXd & V_ref, Eigen::MatrixXd & V_NP, std::vector<int> & selection_ref)
+void register_closest_point(Eigen::MatrixXd const & V_tar, Eigen::MatrixXd const & V_src, Eigen::MatrixXd const & N_tar,
+									Eigen::MatrixXd & V_ref, Eigen::MatrixXd & V_NP, Eigen::MatrixXd & N_ref)
 {
 	//
 	// input:
 	//   V_tar: Nx3 Matrix. Target point cloud (being the reference)
 	//   V_src: Mx3 Matrix. Source point cloud (to be aligned)
+	//   N_tar: Nx3 Matrix. Normal at each target point in V_tar.
 	// output:
 	//   V_ref: subset of V_tar. The not rejected points in V_tar.
 	//   V_NP: The nearest match in V_src for each point in V_ref.
-	//   selection_ref : vector of int. Containing the indices of selected points in V_tar.
+	//   N_ref : subset of N_tar. similar to V_ref.
 	//
-	std::vector<int> selection_src;
+	std::vector<int> selection_ref, selection_src;
 	selection_ref.clear();
 	selection_src.clear();
 
@@ -201,19 +238,18 @@ void register_closest_point(Eigen::MatrixXd const & V_tar, Eigen::MatrixXd const
 		// find NN, 50 in SearchParams is ignored but kept for compatibility
 		mat_index.index->findNeighbors(res, cur_vex.data(), nanoflann::SearchParams(50));
 
-		// store result if dist within threshold
-		if (dists_sqr[0] < 0.01)
-		{
-			selection_ref.push_back(i);
-			selection_src.push_back(indexes[0]);
-		}
+		// store result
+		selection_ref.push_back(i);
+		selection_src.push_back(indexes[0]);
 	}
 	V_NP.resize(selection_src.size(), V_tar.cols());
 	V_ref.resize(selection_ref.size(), V_tar.cols());
+	N_ref.resize(selection_ref.size(), N_tar.cols());
 
 	for (int i = 0; i < selection_ref.size(); ++i)
 	{
 		V_ref.row(i) = V_tar.row(selection_ref[i]);
+		N_ref.row(i) = N_tar.row(selection_ref[i]);
 		V_NP.row(i) = V_src.row(selection_src[i]);
 	}
 }
@@ -228,9 +264,9 @@ void register_closest_point(Eigen::MatrixXd const & V_tar, Eigen::MatrixXd const
 	//   V_ref: subset of V_tar. The not rejected points in V_tar.
 	//   V_NP: The nearest match in V_src for each point in V_ref.
 	//
-	std::vector<int> selection_ref;
-	register_closest_point(V_tar, V_src, V_ref, V_NP, selection_ref);
-
+	Eigen::MatrixXd N_tar, N_ref;
+	N_tar.resize(V_tar.rows(), V_tar.cols());
+	register_closest_point(V_tar, V_src, N_tar, V_ref, V_NP, N_ref);
 }
 
 double estimate_rotation_translation(Eigen::MatrixXd const & V_tar, Eigen::MatrixXd const & V_src, Eigen::Matrix3d & R, Eigen::Vector3d & t)
@@ -274,7 +310,7 @@ double estimate_rotation_translation(Eigen::MatrixXd const & V_tar, Eigen::Matri
 
 	//compute loss
 	Eigen::MatrixXd residue;
-	residue = V_tar.transpose() - (R*V_src.transpose() + t.replicate(1, V_src.rows()));
+	residue = (V_tar.transpose() - (R*V_src.transpose() + t.replicate(1, V_src.rows()))).transpose();
 
 	double loss = 0;
 	for (int i = 0; i < residue.rows(); ++i)
@@ -298,7 +334,9 @@ double estimate_rotation_translation(Eigen::MatrixXd const & V_tar, Eigen::Matri
 	// return:
 	//   double  quadratic loss
 	//
-	Eigen::MatrixXd A, x, b;
+
+	// Formulate Least square problem
+	Eigen::MatrixXd A, b;
 	int N = V_tar.rows();
 	A.resize(N,6);
 	b.resize(N,1);
@@ -318,5 +356,44 @@ double estimate_rotation_translation(Eigen::MatrixXd const & V_tar, Eigen::Matri
 			b(i) += n(j)*(p(j) - q(j));
 		}
 	}
-	// svd A, solve for x, calculate rotation
+
+	// compute SVD
+	Eigen::JacobiSVD<Eigen::MatrixXd> svd(A, Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+	// Construct pseudo-inverse
+	Eigen::MatrixXd sigmaInv;
+	sigmaInv.resize(A.rows(), A.cols());
+	sigmaInv.setZero();
+	int size = (A.rows() < A.cols()) ? A.rows() : A.cols();
+	for (int i = 0; i < size; ++i)
+	{
+		auto sv = svd.singularValues()[i];
+		sigmaInv(i,i) = (sv == 0) ? 0 : 1/sv; 
+	}
+	Eigen::MatrixXd Ainv;
+	Ainv = svd.matrixV() * sigmaInv * (svd.matrixU().transpose());
+
+	// Solve for x
+	Eigen::VectorXd x;
+	x = Ainv * b;
+
+	// Retrieve t from x
+	t = x.bottomRows(3);
+
+	// Reconstruct R from euler angles
+	Eigen::Matrix3d rotx, roty, rotz;
+	get_rotation_X(x(0), rotx); get_rotation_Y(x(1), roty); get_rotation_Z(x(2), rotz); 
+	R = rotz * roty * rotx;
+
+	// compute loss
+	Eigen::MatrixXd residue;
+	residue = (V_tar.transpose() - (R*V_src.transpose() + t.replicate(1, V_src.rows()))).transpose();
+
+	double loss = 0;
+	for (int i = 0; i < residue.rows(); ++i)
+	{
+		loss += pow(residue.row(i).dot(N_tar.row(i)), 2);
+	}
+	std::cout << "Loss = " << loss << std::endl;
+	return loss;
 }

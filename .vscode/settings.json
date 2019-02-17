@@ -62,6 +62,7 @@
         "mprealsupport": "cpp",
         "numericaldiff": "cpp",
         "openglsupport": "cpp",
-        "splines": "cpp"
+        "splines": "cpp",
+        "cfenv": "cpp"
     }
 }

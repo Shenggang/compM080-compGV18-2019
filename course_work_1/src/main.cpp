@@ -80,26 +80,32 @@ public:
 	int mode;
 	float prob;
 	int noise_std;
-	int rotation = 45;
-	bool init_trans = true;
+	int rotation = 0;
+	bool init_trans = false;
 	bool use_normal = false;
 	bool shade = false;
 	Eigen::RowVector3d trans;
 
 	std::vector<double> loss;
+	std::vector<std::vector<double>> que5_loss;
 
 	void load_five_meshes()
 	{
 		std::string files[5] = {"../data/bun000.ply", "../data/bun045.ply", "../data/bun090.ply", 
 						"../data/bun270.ply", "../data/bun315.ply"};
+		V_set_vec.clear();
 		for (int i = 0; i < 5; ++i)
 		{
 			Eigen::MatrixXd V,N;
 			igl::readPLY(files[i], V, F_set_dummy);
 			V_set_vec.push_back(V);
-			std::cout << "Calculating normal for mesh " << i+1 << "/5" << std::endl;
-			calculate_vertex_normal_flann(V, N);
-			N_set_vec.push_back(N);
+			if (N_set_vec.size() < 5)
+			{
+				if (i == 0){
+				calculate_vertex_normal_flann(V,N);
+				}
+				N_set_vec.push_back(N);
+			}
 		}
 	}
 
@@ -109,13 +115,18 @@ public:
 		{
 			load_five_meshes();
 			loss.clear();
+			que5_loss.clear();
+			for (int i = 0; i < 4; i++)
+			{
+				que5_loss.push_back(std::vector<double>());
+			}
 			return;
 		}
+		Eigen::Matrix3d rotmat;
+		get_rotation_Y(rotation, rotmat);
 		if (mode == 0)
 		{
 			igl::readPLY("../data/bun045.ply", V_set_2, F_set_dummy);
-			Eigen::Matrix3d rotmat;
-			get_rotation_Y(rotation, rotmat);
 
 			V_set_2 = (rotmat*(V_set_2.transpose())).transpose();
 			if (init_trans)
@@ -125,8 +136,6 @@ public:
 		} else if (mode == 1)
 		{
 			igl::readPLY("../data/bun000.ply", V_set_2, F_set_dummy);
-			Eigen::Matrix3d rotmat;
-			get_rotation_Y(rotation, rotmat);
 			V_set_2 = (rotmat*(V_set_2.transpose())).transpose();
 		}
 		std::default_random_engine generator;
@@ -169,6 +178,7 @@ public:
 			{
 				if (shade && (i > 0))
 				{
+					std::cout << "Calculating normal for mesh " << i << "/4" << std::endl;
 					calculate_vertex_normal_flann(V_set_vec[i], N_set_vec[i]);
 				}
 				viewer.data().add_points(V_set_vec[i], chooseColor(mycolors[i], N_set_vec[i]));
@@ -187,7 +197,7 @@ public:
 
 	double icp_step(Eigen::MatrixXd const & V_1, Eigen::MatrixXd & V_2)
 	{
-		// Actual icp step
+		// Actual icp step, without normal
 
 		// subsample
 		Eigen::MatrixXd V_subset;
@@ -223,6 +233,50 @@ public:
 		return l;
 	}
 
+	double icp_step(Eigen::MatrixXd const & V_1, Eigen::MatrixXd & V_2, Eigen::MatrixXd const & N_1)
+	{
+		// Actual icp step, with normal
+
+		// subsample
+		Eigen::MatrixXd V_subset;
+		Eigen::MatrixXd N_subset;
+		if (prob < 1)
+		{
+			std::vector<int> indices;
+			subsample(V_1.rows(), prob, indices);
+			V_subset.resize(indices.size(), 3);
+			N_subset.resize(indices.size(), 3);
+
+			for (int i = 0; i < indices.size(); ++i)
+			{
+				V_subset.row(i) = V_1.row(indices[i]);
+				N_subset.row(i) = N_1.row(indices[i]);
+			}
+		} else
+		{
+			V_subset = V_1;
+			N_subset = N_1;
+		}
+		
+		// setup coorespondance
+		Eigen::MatrixXd V_ref;
+		Eigen::MatrixXd V_NP;
+		Eigen::MatrixXd N_ref;
+		std::vector<int>  selection_ref;
+		register_closest_point(V_subset, V_2, N_subset, V_ref, V_NP, N_ref);
+		
+		// calculate transformation
+		Eigen::Matrix3d R;
+		Eigen::Vector3d t;
+		double l = estimate_rotation_translation(V_ref, N_ref, V_NP, R, t);
+		if (mode != 2)
+		{
+			loss.push_back(l);
+		}
+		V_2 = (R*(V_2.transpose()) + t.replicate(1, V_2.rows())).transpose();
+		return l;
+	}
+
 	void icp_step()
 	{
 		// public handle
@@ -233,21 +287,27 @@ public:
 			return;
 		}
 		double l = 0;
+		double li;
 		if (use_normal)
 		{
 			for (int k = 1; k < 5; ++k)
 			{
+				std::cout << "Calculating normal for mesh " << k << "/4" << std::endl;
 				calculate_vertex_normal_flann(V_set_vec[k], N_set_vec[k]);
 			}
 		}
 		for (int i = 2; i > 0; --i)
 		{
-			l += icp_step(V_set_vec[i-1], V_set_vec[i]);
+			li = icp_step(V_set_vec[i-1], V_set_vec[i]);
+			l += li;
+			que5_loss[i-1].push_back(li);
 		}
-		l += icp_step(V_set_vec[4], V_set_vec[3]);
-		calculate_vertex_normal_flann(V_set_vec[3], N_set_vec[3]);
-		l += icp_step(V_set_vec[0], V_set_vec[4]);
-		calculate_vertex_normal_flann(V_set_vec[4], N_set_vec[4]);
+		li = icp_step(V_set_vec[4], V_set_vec[3]);
+		que5_loss[2].push_back(li);
+		l += li;
+		li = icp_step(V_set_vec[0], V_set_vec[4]);
+		que5_loss[3].push_back(li);
+		l += li;
 		std::cout << "Total loss = " << l << std::endl;
 		loss.push_back(l);
 	}
@@ -258,10 +318,21 @@ public:
 		{
 			return;
 		}
-		std::ofstream outputFile("loss_mode_"+std::to_string(mode)+".csv");
+		std::ofstream outputFile("../output/loss_mode_"+std::to_string(mode)+".csv");
 		for (int i = 0; i < loss.size(); ++i)
 		{
 			outputFile << loss[i] << ", ";
+		}
+		if (mode == 2)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				outputFile << "\n";
+				for (int j = 0; j < que5_loss[i].size(); ++j)
+				{
+					outputFile << que5_loss[i][j] << ", ";
+				}
+			}
 		}
 		outputFile.close();
 	}
