@@ -1,0 +1,1 @@
+/usr/bin/c++    -fPIC   CMakeFiles/ICPalign_run.dir/main.cpp.o CMakeFiles/ICPalign_run.dir/mytools.cpp.o  -o ICPalign_run -rdynamic -lGL imgui/libimgui.a glfw/src/libglfw3.a -lrt -lm -lX11 -lpthread glad/libglad.a -ldl 
