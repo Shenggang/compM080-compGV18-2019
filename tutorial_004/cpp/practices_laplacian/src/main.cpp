@@ -5,7 +5,6 @@
 #include <igl/vertex_triangle_adjacency.h>
 #include <imgui/imgui.h>
 #include <igl/readPLY.h>
-#include <igl/readOff.h>
 #include <igl/cotmatrix.h>
 #include <igl/massmatrix.h>
 #include <igl/invert_diag.h>

@@ -16,6 +16,13 @@ void get_boundary_vex(
 	//   Eigen::VectorXi b_bex_index
 	//     igl::boundary_loop( F_in , b_bex_index )
 	// 
+	Eigen::VectorXi b_bex_index;
+	igl::boundary_loop(F, b_bex_index);
+	out_bvex.resize(b_bex_index.rows(), 3);
+	for (int i = 0; i < b_bex_index.rows(); ++i)
+	{
+		out_bvex.row(i) = V.row(b_bex_index(i));
+	}
 
 }
 
@@ -33,7 +40,7 @@ void get_boundary_edges(
 	//   Eigen::MatrixXi b_edge
 	//     igl::boundary_facets( F_in , b_edge )
 	//  
-
+	igl::boundary_facets(F, out_b_edge);
 }
 
 void compute_H(
@@ -57,7 +64,10 @@ void compute_H(
 	//	igl::massmatrix(V, F, igl::MASSMATRIX_TYPE_VORONOI, Area );
 	//	
 
-	
+	Eigen::SparseMatrix<double> L, Area, AreaInv;
+	igl::cotmatrix(V,F,L);
+	igl::massmatrix(V,F, igl::MASSMATRIX_TYPE_VORONOI, Area);
+
 	//------------------------------------------
 	// replace this 
 	H.resize(V.rows());
