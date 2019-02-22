@@ -131,7 +131,8 @@ void compute_H(
 
 
 Example of using SparseMatrix  
-**Eigen::SparseMatrix do NOT support many block operations such as ::head(3), ::topLeftCorner  
+**Most block operation in Eigen::SparseMatrix are read-only.
+
 [SparseQuickRefPage](https://eigen.tuxfamily.org/dox/group__SparseQuickRefPage.html)  
 
 ````
