@@ -1,7 +1,4 @@
-# COMPM080/GV18: Acquisition and Processing of 3D Geometry
-exapmle code for visualization.
-
-# Tutorial Schedule 
+# COMPM080/GV18: Acquisition and Processing of 3D Geometry- Tutorial Schedule 
 
 ### tutorial_001,	python&cpp, visualization  
 ### tutorial_002,	python&cpp, KNN  
