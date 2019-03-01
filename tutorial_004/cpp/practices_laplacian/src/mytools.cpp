@@ -87,10 +87,7 @@ void calculate_vertex_normal(Eigen::MatrixXd const & V, Eigen::MatrixXi const & 
 	//   FN: face normals
 	// output:
 	//   out_VN
-	//
-	//   Your job is to implement vertex normal calculation
-	//
-
+	// 
 	std::vector<std::vector<int> > VF;
 	std::vector<std::vector<int> > VFi;
 	igl::vertex_triangle_adjacency(V.rows(), F, VF, VFi);
