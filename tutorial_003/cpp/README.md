@@ -2,7 +2,7 @@
 
 In this tutorial, we introduce how to recover a Signed Distance Field (SDF) by using RBF fitting method.  
 [Reference paper](http://mesh.brown.edu/DGP/pdfs/Carr-sg2001.pdf)  
-[Slide on moodle/topic4](https://moodle-1819.ucl.ac.uk/)
+[Slide on moodle/topic4](https://moodle-1819.ucl.ac.uk/mod/resource/view.php?id=1033105)
 
 ---
 # FAQ 
