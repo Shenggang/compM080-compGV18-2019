@@ -7,8 +7,7 @@ void get_boundary_vexIndex(Eigen::MatrixXi const & F, Eigen::VectorXi & boundary
     // You job is to call boundary_loop to get the indices of boundary vertices
     //
     // igl::boundary_loop( Eigen::FaceType/Matrix , Eigen::Index List Type/Vector/Maxtrix)
-
-
+	igl::boundary_loop(F, boundary_i);
 }
 
 void solve_poission_eq(Eigen::MatrixXd const & V, Eigen::MatrixXi const & F, Eigen::MatrixXd & out_solved_vex)
@@ -69,11 +68,9 @@ void solve_poission_eq(Eigen::MatrixXd const & V, Eigen::MatrixXi const & F, Eig
     Eigen::SparseMatrix<double>  C_ii, C_ib;
     Eigen::SparseMatrix<double>  M_ii;
     
-    
-    // remove this 
-    C_ii.resize(interior_i.rows(),interior_i.rows());
-    // remove this 
-	M_ii.resize(interior_i.rows(), interior_i.rows());
+    igl::slice(C, interior_i, interior_i, C_ii);
+    igl::slice(C, interior_i, boundary_i, C_ib);
+    igl::slice(M, interior_i, interior_i, M_ii);
     
     
     //=================================================
@@ -99,10 +96,19 @@ void solve_poission_eq(Eigen::MatrixXd const & V, Eigen::MatrixXi const & F, Eig
     Eigen::MatrixXd b_xyz;
 	Eigen::MatrixXd A;
 	
-	//A = C_ii.toDense();
-    
-	// ... 
+    b_xyz = -1 * C_ib * bvex;
+	A = C_ii.toDense();
 
+    Eigen::SparseLU<Eigen::SparseMatrix<double>> solver;
+    solver.analyzePattern(C_ii);
+    solver.factorize(C_ii);
+    if (solver.info() != Eigen::Success) { std::cout << "decomposition failed\n";exit(1); }
+
+	// ... 
+    for (int i = 0; i < boundary_i.rows(); ++i)
+    {
+        new_V.row(boundary_i[i]) = V.row(boundary_i[i]);
+    }
 
     // now solve for each dimension (XYZ)
     for (int i = 0; i < 3; i++)
@@ -112,14 +118,19 @@ void solve_poission_eq(Eigen::MatrixXd const & V, Eigen::MatrixXi const & F, Eig
         
         // solve Ax=b 
         // ...
+        Eigen::VectorXd solution = solver.solve(b_xyz.col(i));
         
-        // restore vertices order
+        if (solver.info() != Eigen::Success) {std::cout << "solving failed\n";exit(1);}
+
+        // restore vertices order   
         // ...
-        
+        for (int j = 0; j < interior_i.rows(); ++j)
+        {
+            new_V(interior_i[j], i) = solution[j];
+        }
         
         double duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
         std::cout << "time cost="  << duration << '\n';
     }
-    
     out_solved_vex = new_V;
 }
