@@ -3273,9 +3273,9 @@ Eigen/Dense
 -
 igl/vertex_triangle_adjacency.h
 -
-random
+igl/adjacency_list.h
 -
-Eigen/LU
+random
 -
 igl/boundary_loop.h
 -
@@ -3286,11 +3286,5 @@ igl/setdiff.h
 igl/slice.h
 -
 igl/slice_into.h
--
-igl/cotmatrix.h
--
-igl/massmatrix.h
--
-igl/invert_diag.h
 -
 

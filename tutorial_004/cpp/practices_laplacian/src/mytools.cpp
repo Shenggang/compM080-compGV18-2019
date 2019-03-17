@@ -43,6 +43,103 @@ void get_boundary_edges(
 	igl::boundary_facets(F, out_b_edge);
 }
 
+void compute_uniform_matrix(
+	Eigen::MatrixXd const & V,
+	Eigen::MatrixXi const & F,
+	Eigen::SparseMatrix<double> & L
+)
+{
+	// V : input vertices, N-by-3
+	// F : input faces
+	//
+	// L : output uniform laplace operator, N-by-N.
+	int nv = V.rows();
+	std::vector<std::vector<int> > A;
+	igl::adjacency_list(F,A);
+	L.resize(nv,nv);
+	L.reserve(10*nv);
+
+	std::vector<Eigen::Triplet<double>> Ltemp;
+	for (int i = 0; i < nv; ++i)
+	{
+		int n = A[i].size();
+		Ltemp.push_back(Eigen::Triplet<double>(i,i,-1));
+		for (int j:A[i])
+		{
+			Ltemp.push_back(Eigen::Triplet<double>(i,j,-double(1/n)));
+		}
+	}
+	L.setFromTriplets(Ltemp.begin(), Ltemp.end());
+}
+
+double angle_between_vectors(
+	Eigen::Vector3d const & v1,
+	Eigen::Vector3d const & v2
+	)
+{
+	// returns angle between two vectors
+	double adotb = v1.dot(-v2);
+	return acos(adotb/v1.norm()/v2.norm());
+}
+
+void compute_cotan_matrix(
+	Eigen::MatrixXd const & V,
+	Eigen::MatrixXi const & F,
+	Eigen::SparseMatrix<double> & L
+	)
+{
+	// V : input vertices, N-by-3
+	// F : input faces
+	//
+	// L : output cotangent matrix, N-by-N.
+	int nv = V.rows();
+	int nf = F.rows();
+	std::vector<std::vector<int> > A;
+	igl::adjacency_list(F,A);
+	
+	std::vector<Eigen::Triplet<double>> Ltemp;
+
+	// Code from libigl, reduces computation time by preallocation
+	L.resize(nv,nv);
+	L.reserve(10*nv);
+	Eigen::Matrix<int, -1, 2> edges;
+	edges.resize(3,2);
+	edges <<
+		1,2,
+		2,0,
+		0,1;
+
+	// compute and store (cot(a_ij)+cot(b_ij))/2 for each edge ij
+	std::cout << "Computing cot ij" << std::endl;
+	for (int i = 0; i < nf; ++i)
+	{
+		int v[3];
+		for (int j = 0; j < 3; ++j){
+			v[j] = F(i,j);
+		}
+		std::vector<Eigen::MatrixXd> vertices, sides;
+		for (int j = 0; j < 3; ++j)
+		{
+			Eigen::Vector3d vertex(V(v[j],0), V(v[j],1), V(v[j],2));
+			vertices.push_back(vertex);
+		}
+		sides.push_back(vertices[1] - vertices[2]);
+		sides.push_back(vertices[2] - vertices[0]);
+		sides.push_back(vertices[0] - vertices[1]);
+		for (int j = 0; j < 3; ++j)
+		{
+			int source = edges(j,0);
+			int dest = edges(j,1);
+			double cot = 0.5/tan(angle_between_vectors(sides[source], sides[dest]));
+			Ltemp.push_back(Eigen::Triplet<double>(v[source], v[dest], cot));
+			Ltemp.push_back(Eigen::Triplet<double>(v[dest], v[source], cot));
+			Ltemp.push_back(Eigen::Triplet<double>(v[source], v[source], -cot));
+			Ltemp.push_back(Eigen::Triplet<double>(v[dest], v[dest], -cot));
+		}
+	}
+	L.setFromTriplets(Ltemp.begin(), Ltemp.end());
+}
+
 double area_of_triangle(
 	Eigen::MatrixXd const & vertex_1,
 	Eigen::MatrixXd const & vertex_2,
@@ -118,25 +215,26 @@ void compute_H(
 	//	
 
 	Eigen::SparseMatrix<double> L, Area, AreaInv;
-	igl::cotmatrix(V,F,L);
-	//igl::massmatrix(V,F, igl::MASSMATRIX_TYPE_VORONOI, Area);
+	//compute_cotan_matrix(V,F,L);
 	compute_area(V, F, Area);
 
-	AreaInv.resize(Area.rows(), Area.rows());
+	AreaInv.resize(V.rows(), V.rows());
 	AreaInv.setZero();
 	for (int i = 0; i < Area.rows(); ++i)
 	{
 		AreaInv.insert(i,i) = 1/Area.coeff(i,i);
 	}
 
-	Eigen::MatrixXd LBV = AreaInv*L*V;
-	//------------------------------------------
-	// replace this 
-	H.resize(LBV.rows());
+	//Eigen::MatrixXd LBV = AreaInv*L*V;
+	Eigen::SparseMatrix<double> UL;
+	compute_uniform_matrix(V,F,UL);
+	Eigen::MatrixXd DV = AreaInv*UL*V;
 	
-	for (int i = 0; i < LBV.rows(); ++i)
+	H.resize(V.rows());
+
+	for (int i = 0; i < V.rows(); ++i)
 	{
-		H(i) = 0.5*LBV.row(i).norm();
+		H(i) = 0.5*DV.row(i).norm();
 	}
 }
 
