@@ -228,7 +228,7 @@ void compute_H(
 	//Eigen::MatrixXd LBV = AreaInv*L*V;
 	Eigen::SparseMatrix<double> UL;
 	compute_uniform_matrix(V,F,UL);
-	Eigen::MatrixXd DV = AreaInv*UL*V;
+	Eigen::MatrixXd DV = UL*V;
 	
 	H.resize(V.rows());
 

@@ -152,7 +152,7 @@ void get_example_mesh(std::string const meshname , Eigen::MatrixXd & V, Eigen::M
 
 
 	std::vector<const char *> cands{ 
-		"../../data/", 
+		//"../../data/", 
 		"../../../data/",
 		"../../../../data/",
 		"../../../../../data/" };
@@ -217,7 +217,9 @@ int main(int argc, char *argv[])
 	g_myctx.bedges = bedges;
 	g_myctx.bvex = bvex;
 
-	H = 100 * H.array() / (H.maxCoeff() - H.minCoeff());
+	//H = 100 * H.array() / (H.maxCoeff() - H.minCoeff());
+	H = H.array() *100/(H.maxCoeff() - H.minCoeff());
+	H = H.array() - H.minCoeff();
 	//replace by color scheme
 	igl::parula(H, false, g_myctx.m_C);
 

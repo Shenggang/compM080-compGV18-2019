@@ -1,0 +1,1 @@
+/usr/bin/c++    -fPIC -O3 -DNDEBUG   CMakeFiles/mesh_smoothing_bin.dir/main.cpp.o CMakeFiles/mesh_smoothing_bin.dir/mytools.cpp.o  -o mesh_smoothing_bin -rdynamic -lGL imgui/libimgui.a glfw/src/libglfw3.a -lrt -lm -lX11 -lpthread glad/libglad.a -ldl 
