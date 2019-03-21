@@ -214,9 +214,16 @@ void compute_H(
 	//	igl::massmatrix(V, F, igl::MASSMATRIX_TYPE_VORONOI, Area );
 	//	
 
-	Eigen::SparseMatrix<double> L, Area, AreaInv;
+	Eigen::SparseMatrix<double> L, Area, AreaInv, AreaGT;
 	//compute_cotan_matrix(V,F,L);
 	compute_area(V, F, Area);
+	igl::massmatrix(V, F, igl::MASSMATRIX_TYPE_BARYCENTRIC, AreaGT );
+	for (int i = 0; i < 20; ++i)
+	{
+		std::cout << Area.coeff(i,i) <<std::endl;
+		std::cout << AreaGT.coeff(i,i) << std::endl;
+	}
+
 
 	AreaInv.resize(V.rows(), V.rows());
 	AreaInv.setZero();

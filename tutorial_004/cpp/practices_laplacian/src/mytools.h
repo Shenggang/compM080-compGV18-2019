@@ -11,6 +11,7 @@
 #include <random>
 #include <igl/boundary_loop.h>
 #include <igl/boundary_facets.h>
+#include <igl/massmatrix.h>
 #include <igl/setdiff.h> 
 #include <igl/slice.h>
 #include <igl/slice_into.h>

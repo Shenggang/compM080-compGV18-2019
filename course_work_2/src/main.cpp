@@ -30,7 +30,7 @@ class MyContext
 {
 public:
 
-	MyContext() :notexture(true),mode(0),render_index(0),rank(5)
+	MyContext() :notexture(true),mode(0),render_index(0),rank(5),implicit(false),step_size(0.0000001),noise_level(0)
 	{
 
 	}
@@ -54,6 +54,10 @@ public:
 	int mode;
 	int render_index;
 	int rank;
+
+	bool implicit;
+	double step_size;
+	double noise_level;
 	
 
 	void concate(Eigen::MatrixXd const & VA, Eigen::MatrixXi const & FA, Eigen::MatrixXd const & VB, Eigen::MatrixXi const & FB,
@@ -100,7 +104,7 @@ public:
 			}
 			compute_H(m_V, L, result);
 		}
-		result = result.array() *200/(result.maxCoeff() - result.minCoeff());
+		result = result.array() *100/(result.maxCoeff() - result.minCoeff());
 		result = result.array() - result.minCoeff();
 		//replace by color scheme
 		igl::parula(result, false, m_C);
@@ -161,6 +165,58 @@ public:
 		}
 		reset_display(viewer);
 	}
+
+	void smooth(igl::opengl::glfw::Viewer &viewer)
+	{
+		Eigen::SparseMatrix<double> M,C;
+		compute_area(m_V, m_F, M);
+		compute_cotan_matrix(m_V, m_F, C);
+
+		if (implicit)
+		{
+			//implicit smoothing
+			Eigen::SparseMatrix<double> A;
+			A = M - step_size*C;
+			Eigen::SimplicialCholesky<Eigen::SparseMatrix<double>> solver;
+			//Eigen::SparseLU<Eigen::SparseMatrix<double>> solver;
+			solver.analyzePattern(A);
+			solver.factorize(A);
+			if (solver.info() != Eigen::Success) { std::cout << "decomposition failed\n";exit(1); }
+			Eigen::MatrixXd b;
+			b = M*m_V;
+			for (int i = 0; i < 3; i++)
+			{
+				// solve Ax=b 
+				// ...
+				Eigen::VectorXd solution = solver.solve(b.col(i));
+				if (solver.info() != Eigen::Success) {std::cout << "solving failed\n";exit(1);}
+				m_V.col(i) = solution;
+			}
+		} else
+		{
+			//explicit smoothing
+			M = M.cwiseInverse();
+			m_V = m_V + step_size*M*C*m_V;
+		}
+		reset_display(viewer);
+	}
+
+	void add_noise(igl::opengl::glfw::Viewer &viewer)
+	{
+		std::default_random_engine generator;
+  		std::normal_distribution<double> distribution(0, noise_level);
+		Eigen::MatrixXd temp;
+		temp.resize(V_original.rows(), V_original.cols());
+		for (int i = 0; i < m_V.rows(); ++i)
+		{
+			for (int j = 0; j < m_V.cols(); ++j)
+			{
+				temp(i,j) = V_original(i,j) + distribution(generator);
+			}
+		}
+		m_V = temp;
+		reset_display(viewer);
+	}
 private:
 
 };
@@ -183,7 +239,7 @@ bool key_down(igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier
 
 int main(int argc, char *argv[])
 {
-	char const *filenames[6] = {"bunny.obj", "camel.obj", "camelhead.obj", "cow.obj", "cube.obj", "dragon.obj"};
+	char const *filenames[8] = {"bunny.obj", "camel.obj", "camelhead.obj", "cow_manifold.obj", "cow_small_manifold.obj", "cow.obj", "cube.obj", "dragon.obj"};
 	g_myctx.meshname = filenames[0];
 	g_myctx.prev_mesh = filenames[0];
 
@@ -300,6 +356,21 @@ int main(int argc, char *argv[])
 			if (ImGui::Button("Reconstruct"))
 			{
 				g_myctx.reconstruct(viewer);
+			}
+		} else if (g_myctx.mode == 2)
+		{
+			//mode 2, mesh smoothing
+			ImGui::Text("Mesh smoothingn");
+			ImGui::Checkbox("Implicit smoothing", &g_myctx.implicit);
+			ImGui::InputDouble("Step Size", &g_myctx.step_size, 0.0000001, 0.000001, "%.7f");
+			if (ImGui::Button("Smooth"))
+			{
+				g_myctx.smooth(viewer);
+			}
+			ImGui::InputDouble("Noise level", &g_myctx.noise_level, 0.00001, 0.0001, "%.5f");
+			if (ImGui::Button("Add noise"))
+			{
+				g_myctx.add_noise(viewer);
 			}
 		}
 		ImGui::End();

@@ -3281,6 +3281,8 @@ igl/boundary_loop.h
 -
 igl/boundary_facets.h
 -
+igl/massmatrix.h
+-
 igl/setdiff.h
 -
 igl/slice.h

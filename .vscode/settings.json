@@ -63,6 +63,7 @@
         "numericaldiff": "cpp",
         "openglsupport": "cpp",
         "splines": "cpp",
-        "cfenv": "cpp"
+        "cfenv": "cpp",
+        "sparsecholesky": "cpp"
     }
 }

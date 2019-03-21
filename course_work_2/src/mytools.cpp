@@ -66,7 +66,7 @@ void compute_uniform_matrix(
 		Ltemp.push_back(Eigen::Triplet<double>(i,i,-1));
 		for (int j:A[i])
 		{
-			Ltemp.push_back(Eigen::Triplet<double>(i,j,-double(1/n)));
+			Ltemp.push_back(Eigen::Triplet<double>(i,j,double(1)/n));
 		}
 	}
 	L.setFromTriplets(Ltemp.begin(), Ltemp.end());
@@ -110,7 +110,7 @@ void compute_cotan_matrix(
 		0,1;
 
 	// compute and store (cot(a_ij)+cot(b_ij))/2 for each edge ij
-	std::cout << "Computing cot ij" << std::endl;
+	//std::cout << "Computing cot ij" << std::endl;
 	for (int i = 0; i < nf; ++i)
 	{
 		int v[3];

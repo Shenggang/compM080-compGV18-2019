@@ -745,6 +745,10 @@ CMakeFiles/practices_laplacian_bin.dir/mytools.cpp.o
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/colon.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/cumsum.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/cumsum.h
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/doublearea.cpp
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/doublearea.h
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/edge_lengths.cpp
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/edge_lengths.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/face_occurrences.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/face_occurrences.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/get_seconds.cpp
@@ -754,17 +758,23 @@ CMakeFiles/practices_laplacian_bin.dir/mytools.cpp.o
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/is_border_vertex.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/list_to_matrix.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/list_to_matrix.h
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/massmatrix.cpp
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/massmatrix.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/matrix_to_list.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/matrix_to_list.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/max_size.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/max_size.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/min_size.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/min_size.h
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/normalize_row_sums.cpp
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/normalize_row_sums.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/oriented_facets.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/oriented_facets.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/parallel_for.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/reorder.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/reorder.h
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/repmat.cpp
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/repmat.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/setdiff.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/setdiff.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/slice.cpp
@@ -775,6 +785,10 @@ CMakeFiles/practices_laplacian_bin.dir/mytools.cpp.o
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/sort.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/sortrows.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/sortrows.h
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/sparse.cpp
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/sparse.h
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/squared_edge_lengths.cpp
+ /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/squared_edge_lengths.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/triangle_triangle_adjacency.cpp
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/triangle_triangle_adjacency.h
  /home/hu/Documents/compM080-compGV18-2019/libigl/cmake/../include/igl/unique.cpp
