@@ -30,7 +30,7 @@ class MyContext
 {
 public:
 
-	MyContext() :notexture(true),mode(0),render_index(0),rank(5),implicit(false),step_size(0.0000001),noise_level(0)
+	MyContext() :notexture(true),mode(0),render_index(0),range(5),rank(5),implicit(false),step_size(0.0000001),noise_level(0)
 	{
 
 	}
@@ -53,6 +53,7 @@ public:
 	bool computed = false;
 	int mode;
 	int render_index;
+	int range;
 	int rank;
 
 	bool implicit;
@@ -71,28 +72,25 @@ public:
 		
 	}
 
-	void smooth()
-	{
-
-	}
-
 	void compute_color()
 	{
 		Eigen::SparseMatrix<double> L, Area, AreaInv;
 		Eigen::VectorXd result;
 		compute_area(m_V, m_F, Area);
 
-		AreaInv.resize(m_V.rows(), m_V.rows());
-		AreaInv.setZero();
+		AreaInv.resize(Area.rows(), Area.cols());
+		AreaInv.reserve(Area.rows());
+		std::vector<Eigen::Triplet<double>> temp;
 		for (int i = 0; i < Area.rows(); ++i)
 		{
-			AreaInv.insert(i,i) = 1/Area.coeff(i,i);
+			temp.push_back(Eigen::Triplet<double>(i,i, double(1)/Area.coeff(i,i)));
 		}
+		AreaInv.setFromTriplets(temp.begin(), temp.end());
 
 		if (render_index == 0)
 		{
 			compute_gaussian_curvature(m_V, m_F, result);
-			//result = AreaInv * result;
+			result = AreaInv * result;
 		} else
 		{
 			if (render_index == 1)
@@ -104,10 +102,13 @@ public:
 			}
 			compute_H(m_V, L, result);
 		}
-		result = result.array() *100/(result.maxCoeff() - result.minCoeff());
+		//double mean = result.sum()/result.rows();
+		result = result.array() *range/(result.maxCoeff() - result.minCoeff());
+		//result = result.array() *range/(mean/2 - result.minCoeff());
 		result = result.array() - result.minCoeff();
 		//replace by color scheme
 		igl::parula(result, false, m_C);
+		//igl::jet(result, false, m_C);
 	}
 
 	void reset_display(igl::opengl::glfw::Viewer& viewer)
@@ -215,6 +216,12 @@ public:
 			}
 		}
 		m_V = temp;
+		reset_display(viewer);
+	}
+
+	void reset(igl::opengl::glfw::Viewer &viewer)
+	{
+		m_V = V_original;
 		reset_display(viewer);
 	}
 private:
@@ -343,6 +350,8 @@ int main(int argc, char *argv[])
 
 			ImGui::ListBox("listbox\n(single select)", &g_myctx.render_index, listbox_items, IM_ARRAYSIZE(listbox_items), 4);
 
+			ImGui::SliderInt("Raw color range", &g_myctx.range, 1, 50);
+
 			if (ImGui::Button("Render"))
 			{
 				g_myctx.render(viewer);
@@ -367,10 +376,14 @@ int main(int argc, char *argv[])
 			{
 				g_myctx.smooth(viewer);
 			}
-			ImGui::InputDouble("Noise level", &g_myctx.noise_level, 0.00001, 0.0001, "%.5f");
+			ImGui::InputDouble("Noise level", &g_myctx.noise_level, 0.0001, 0.001, "%.4f");
 			if (ImGui::Button("Add noise"))
 			{
 				g_myctx.add_noise(viewer);
+			}
+			if (ImGui::Button("Rest"))
+			{
+				g_myctx.reset(viewer);
 			}
 		}
 		ImGui::End();

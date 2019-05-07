@@ -181,7 +181,8 @@ void compute_area(
 	}
 
 	Area.resize(vertices, vertices);
-	Area.setZero();
+	Area.reserve(vertices);
+	std::vector<Eigen::Triplet<double>> temp;
 	for (int i = 0; i < vertices; ++i)
 	{
 		double area = 0;
@@ -189,8 +190,9 @@ void compute_area(
 		{
 			area += area_tri[index];
 		}
-		Area.insert(i,i) = area;
+		temp.push_back(Eigen::Triplet<double>(i,i, area));
 	}
+	Area.setFromTriplets(temp.begin(), temp.end());
 }
 
 void compute_H(
@@ -217,10 +219,12 @@ void compute_H(
 	Eigen::SparseMatrix<double> L, Area, AreaInv;
 	compute_area(V, F, Area);
 
+	AreaInv.resize(Area.rows(), Area.cols());
+	AreaInv.reserve(Area.rows());
 	std::vector<Eigen::Triplet<double>> temp;
 	for (int i = 0; i < Area.rows(); ++i)
 	{
-		temp.push_back(Eigen::Triplet<double>(i,i, 1/Area.coeff(i,i)));
+		temp.push_back(Eigen::Triplet<double>(i,i, double(1)/Area.coeff(i,i)));
 	}
 	AreaInv.setFromTriplets(temp.begin(), temp.end());
 
@@ -294,6 +298,7 @@ void compute_gaussian_curvature(Eigen::MatrixXd const & V, Eigen::MatrixXi const
 			K(v[vertex]) -= angle;
 		}
 	}
+	
 }
 
 
