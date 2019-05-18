@@ -1,0 +1,55 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/hu/Documents/compM080-compGV18-2019/course_work_3/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f00bd/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f00bd.dir/build.make CMakeFiles/cmTC_f00bd.dir/build
+make[1]: Entering directory '/home/hu/Documents/compM080-compGV18-2019/course_work_3/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f00bd.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_f00bd.dir/CheckSymbolExists.c.o   -c /home/hu/Documents/compM080-compGV18-2019/course_work_3/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_f00bd
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f00bd.dir/link.txt --verbose=1
+/usr/bin/cc   -fPIC     CMakeFiles/cmTC_f00bd.dir/CheckSymbolExists.c.o  -o cmTC_f00bd -rdynamic 
+CMakeFiles/cmTC_f00bd.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_f00bd.dir/build.make:97: recipe for target 'cmTC_f00bd' failed
+make[1]: *** [cmTC_f00bd] Error 1
+make[1]: Leaving directory '/home/hu/Documents/compM080-compGV18-2019/course_work_3/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_f00bd/fast' failed
+make: *** [cmTC_f00bd/fast] Error 2
+
+File /home/hu/Documents/compM080-compGV18-2019/course_work_3/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/hu/Documents/compM080-compGV18-2019/course_work_3/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b9e3b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b9e3b.dir/build.make CMakeFiles/cmTC_b9e3b.dir/build
+make[1]: Entering directory '/home/hu/Documents/compM080-compGV18-2019/course_work_3/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b9e3b.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_b9e3b.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_b9e3b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b9e3b.dir/link.txt --verbose=1
+/usr/bin/cc   -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_b9e3b.dir/CheckFunctionExists.c.o  -o cmTC_b9e3b -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_b9e3b.dir/build.make:97: recipe for target 'cmTC_b9e3b' failed
+make[1]: *** [cmTC_b9e3b] Error 1
+make[1]: Leaving directory '/home/hu/Documents/compM080-compGV18-2019/course_work_3/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_b9e3b/fast' failed
+make: *** [cmTC_b9e3b/fast] Error 2
+
+
